@@ -1,0 +1,44 @@
+name: chatter
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore:
+  image_picker:
+  firebase_storage:
+  firebase_auth:
+  google_sign_in:
+  geolocator:
+  uuid:
+  image:
+  animator:
+  cupertino_icons:
+  path_provider:
+  firebase_messaging:
+  timeago:
+  cached_network_image:
+  flutter_svg:
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Signatra
+      fonts:
+        - asset: assets/fonts/Signatra.ttf
+  assets:
+    - assets/images/google_signin_button.png
+    - assets/images/upload.svg
+    - assets/images/search.svg
+    - assets/images/activity_feed.svg
+    - assets/images/no_content.svg
