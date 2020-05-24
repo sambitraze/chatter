@@ -3,11 +3,15 @@ import 'package:chatter/pages/profile.dart';
 import 'package:chatter/pages/search.dart';
 import 'package:chatter/pages/timeline.dart';
 import 'package:chatter/pages/upload.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'create_account.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
+final usersColRef = Firestore.instance.collection('users');
+final DateTime uct = DateTime.now();
 
 class Home extends StatefulWidget {
   @override
@@ -38,7 +42,7 @@ class _HomeState extends State<Home> {
   handleSignIn(GoogleSignInAccount account) {
     if (account != null) {
       print(account.displayName);
-      print(account.email);
+      createUserInFirestore();
       setState(() {
         isAuth = true;
       });
@@ -47,6 +51,29 @@ class _HomeState extends State<Home> {
         isAuth = false;
       });
     }
+  }
+
+  createUserInFirestore() async {
+    //chk if users exist in users collection according to thier id
+    final GoogleSignInAccount user = googleSignIn.currentUser;
+    print(user.id);
+    final DocumentSnapshot doc = await usersColRef.document(user.id).get();
+    if (!doc.exists) {
+      final username = await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CreateAccount()));
+      usersColRef.document(user.id).setData({
+        "id": user.id,
+        "username": username,
+        "PhotoURL": user.photoUrl,
+        "email": user.email,
+        "displayName": user.displayName,
+        "bio": "",
+        "UCT": uct,
+      });
+    }
+    // if not then to create account page.
+
+    //get user name froma ccount make new user document users collecion
   }
 
   @override
@@ -64,18 +91,20 @@ class _HomeState extends State<Home> {
   }
 
   onTap(int pageIndex) {
-    pageController.animateToPage(
-      pageIndex,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeIn
-    );
+    pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
   Scaffold buildAuthScreen() {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          Timeline(),
+          // Timeline(),
+          RaisedButton(
+            onPressed: logout,
+            color: Colors.white,
+            child: Text('Log Out'),
+          ),
           ActivityFeed(),
           Upload(),
           Search(),
