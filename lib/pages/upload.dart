@@ -8,6 +8,17 @@ class Upload extends StatefulWidget {
 class _UploadState extends State<Upload> {
   @override
   Widget build(BuildContext context) {
-    return Text("Upload");
+    return Scaffold(
+        appBar: AppBar(
+      backgroundColor: Colors.black,
+      title: Text(
+        'Upload',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 22.0,
+        ),
+      ),
+      centerTitle: true,
+    ));
   }
 }

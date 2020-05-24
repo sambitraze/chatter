@@ -8,7 +8,18 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
-    return Text('Search');
+    return Scaffold(
+        appBar: AppBar(
+      backgroundColor: Colors.black,
+      title: Text(
+        'Search',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 22.0,
+        ),
+      ),
+      centerTitle: true,
+    ));
   }
 }
 

@@ -24,6 +24,7 @@ dependencies:
   timeago:
   cached_network_image:
   flutter_svg:
+  curved_navigation_bar: ^0.3.2
 
 
 dev_dependencies:

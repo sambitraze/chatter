@@ -1,3 +1,4 @@
+import 'package:chatter/pages/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +11,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterShare',
       debugShowCheckedModeBanner: false,
-      home: Text("Hello World"),
+      home: Home(),
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        accentColor: Colors.cyan,
+      ),      
     );
   }
 }
