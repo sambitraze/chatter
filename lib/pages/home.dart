@@ -2,6 +2,7 @@ import 'package:chatter/pages/activity_feed.dart';
 import 'package:chatter/pages/profile.dart';
 import 'package:chatter/pages/search.dart';
 import 'package:chatter/pages/timeline.dart';
+import 'package:chatter/models/user.dart';
 import 'package:chatter/pages/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'create_account.dart';
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final usersColRef = Firestore.instance.collection('users');
 final DateTime uct = DateTime.now();
+User currentUser;
 
 class Home extends StatefulWidget {
   @override
@@ -41,7 +43,7 @@ class _HomeState extends State<Home> {
 
   handleSignIn(GoogleSignInAccount account) {
     if (account != null) {
-      print(account.displayName);
+      // print(account.displayName);
       createUserInFirestore();
       setState(() {
         isAuth = true;
@@ -57,7 +59,7 @@ class _HomeState extends State<Home> {
     //chk if users exist in users collection according to thier id
     final GoogleSignInAccount user = googleSignIn.currentUser;
     print(user.id);
-    final DocumentSnapshot doc = await usersColRef.document(user.id).get();
+    DocumentSnapshot doc = await usersColRef.document(user.id).get();
     if (!doc.exists) {
       final username = await Navigator.push(
           context, MaterialPageRoute(builder: (context) => CreateAccount()));
@@ -66,13 +68,16 @@ class _HomeState extends State<Home> {
         "username": username,
         "PhotoURL": user.photoUrl,
         "email": user.email,
-        "displayName": user.displayName,
+        "displayName": user.displayName.toLowerCase(),
         "bio": "",
         "UCT": uct,
       });
+      doc = await usersColRef.document(user.id).get();
     }
     // if not then to create account page.
-
+    currentUser = User.fromDocument(doc);
+    print(currentUser);
+    print(currentUser.displayName);
     //get user name froma ccount make new user document users collecion
   }
 
@@ -127,7 +132,7 @@ class _HomeState extends State<Home> {
           Icon(
             Icons.whatshot,
             size: 30,
-            color: Colors.redAccent,
+            color: Colors.purpleAccent,
           ),
           Icon(
             Icons.notifications,
@@ -142,7 +147,7 @@ class _HomeState extends State<Home> {
           Icon(
             Icons.search,
             size: 30,
-            color: Colors.purpleAccent,
+            color: Colors.redAccent,
           ),
           Icon(
             Icons.person,
