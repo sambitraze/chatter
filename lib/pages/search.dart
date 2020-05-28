@@ -4,6 +4,7 @@ import 'package:chatter/widgets/progress.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -81,10 +82,13 @@ class _SearchState extends State<Search> {
       builder: (context, snapshot) {
         print(snapshot.toString());
         if (snapshot.hasData) {
-          List<Text> searchResults = [];
+          List<UserResult> searchResults = [];
           snapshot.data.documents.forEach((doc) {
             User user = User.fromDocument(doc);
-            searchResults.add(Text(user.username));
+            UserResult searchResult = UserResult(
+              user: user,
+            );
+            searchResults.add(searchResult);
           });
           return ListView(
             children: searchResults,
@@ -107,8 +111,47 @@ class _SearchState extends State<Search> {
 }
 
 class UserResult extends StatelessWidget {
+  UserResult({this.user});
+
+  final User user;
+
   @override
   Widget build(BuildContext context) {
-    return Text("User Result");
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.redAccent,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(        
+          children: <Widget>[
+            GestureDetector(
+              onTap: () => print('Tapped'),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  backgroundImage: CachedNetworkImageProvider(user.photoUrl),
+                ),
+                title: Text(
+                  user.displayName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  user.username,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+           
+          ],
+        ),
+      ),
+    );
   }
 }
