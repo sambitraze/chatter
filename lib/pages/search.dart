@@ -36,6 +36,15 @@ class _SearchState extends State<Search> {
       title: TextFormField(
         controller: searchController,
         decoration: InputDecoration(
+          // enabledBorder: OutlineInputBorder(
+          //   // borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          //   borderSide: BorderSide(color: Colors.black),
+          // ),
+          // focusedBorder: OutlineInputBorder(
+          //   // borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          //   borderSide: BorderSide(color: Colors.black),
+          // ),
+          enabled: false,
           hintText: "Search for user",
           filled: true,
           prefixIcon: Icon(Icons.account_box, size: 28.0),
@@ -103,9 +112,44 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: buildSearchField(),
-      body: searchResultFuture == null ? buildNoContent() : buildSearchResult(),
+      backgroundColor: Colors.purpleAccent.withOpacity(0.8),
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: TextFormField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  enabled: false,
+                  hintText: "Search for user",
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.8),
+                  prefixIcon: Icon(Icons.account_box, size: 28.0),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: clearSearch,
+                  ),
+                ),
+                onFieldSubmitted: handleSearch,
+              ),
+            ),
+            Expanded(
+              child:searchResultFuture == null
+                ? buildNoContent()
+                : buildSearchResult()
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -121,10 +165,10 @@ class UserResult extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.redAccent,
+          color: Colors.white.withOpacity(0.7),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(        
+        child: Column(
           children: <Widget>[
             GestureDetector(
               onTap: () => print('Tapped'),
@@ -136,19 +180,18 @@ class UserResult extends StatelessWidget {
                 title: Text(
                   user.displayName,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 subtitle: Text(
                   user.username,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
             ),
-           
           ],
         ),
       ),

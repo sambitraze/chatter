@@ -97,7 +97,21 @@ class _HomeState extends State<Home> {
 
   onTap(int pageIndex) {
     pageController.animateToPage(pageIndex,
-        duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
+  }
+  Color colorSelect(i){
+    if(i==0)
+      return Colors.redAccent;
+    if(i==1)
+      return Colors.greenAccent;
+    if(i==2)
+      return Colors.orangeAccent;
+    if(i==3)
+      return Colors.purpleAccent.withOpacity(0.8);
+    if(i==4)
+      return Colors.lightBlueAccent;
+    else
+      return Colors.white;
   }
 
   Scaffold buildAuthScreen() {
@@ -111,7 +125,7 @@ class _HomeState extends State<Home> {
             child: Text('Log Out'),
           ),
           ActivityFeed(),
-          Upload(),
+          Upload(currentUser: currentUser),
           Search(),
           Profile(),
         ],
@@ -126,13 +140,13 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: CurvedNavigationBar(
         index: pageIndex,
         color: Colors.black,
-        backgroundColor: Colors.white,
+        backgroundColor: colorSelect(pageIndex),
         onTap: onTap,
         items: <Widget>[
           Icon(
             Icons.whatshot,
             size: 30,
-            color: Colors.purpleAccent,
+            color: Colors.redAccent,
           ),
           Icon(
             Icons.notifications,
@@ -147,7 +161,7 @@ class _HomeState extends State<Home> {
           Icon(
             Icons.search,
             size: 30,
-            color: Colors.redAccent,
+            color: Colors.purpleAccent.withOpacity(0.8),
           ),
           Icon(
             Icons.person,
