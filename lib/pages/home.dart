@@ -5,13 +5,16 @@ import 'package:chatter/pages/timeline.dart';
 import 'package:chatter/models/user.dart';
 import 'package:chatter/pages/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'create_account.dart';
 
+final StorageReference cloudStorage = FirebaseStorage.instance.ref();
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final usersColRef = Firestore.instance.collection('users');
+final postColRef = Firestore.instance.collection('posts');
 final DateTime uct = DateTime.now();
 User currentUser;
 
