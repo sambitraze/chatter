@@ -36,14 +36,6 @@ class _SearchState extends State<Search> {
       title: TextFormField(
         controller: searchController,
         decoration: InputDecoration(
-          // enabledBorder: OutlineInputBorder(
-          //   // borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          //   borderSide: BorderSide(color: Colors.black),
-          // ),
-          // focusedBorder: OutlineInputBorder(
-          //   // borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          //   borderSide: BorderSide(color: Colors.black),
-          // ),
           enabled: false,
           hintText: "Search for user",
           filled: true,

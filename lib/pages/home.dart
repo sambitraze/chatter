@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
     if(i==3)
       return Colors.purpleAccent.withOpacity(0.8);
     if(i==4)
-      return Colors.lightBlueAccent;
+      return Colors.white;
     else
       return Colors.white;
   }
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
           ActivityFeed(),
           Upload(currentUser: currentUser),
           Search(),
-          Profile(),
+          Profile(profileId: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: (pageIndex) {
@@ -169,7 +169,7 @@ class _HomeState extends State<Home> {
           Icon(
             Icons.person,
             size: 30,
-            color: Colors.lightBlueAccent,
+            color: Colors.white,
           ),
         ],
       ),
