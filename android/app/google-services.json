@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1073552866947-dddkcisbt7ehg6utfised9u3b8koprbn.apps.googleusercontent.com",
+          "client_id": "1073552866947-ap2bof3g0oi820f1r51b93d5jh9nf9oi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sambitraze.chatter",
-            "certificate_hash": "5755c45eae9798b16ec63ab7194aa25fb798131f"
+            "certificate_hash": "8163d8b33de12f50fadcc6d8a8b7aa55ea454bed"
           }
         },
         {
