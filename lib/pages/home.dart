@@ -2,6 +2,7 @@ import 'package:chatter/pages/activity_feed.dart';
 import 'package:chatter/pages/profile.dart';
 import 'package:chatter/pages/search.dart';
 import 'package:chatter/pages/timeline.dart';
+import 'package:recase/recase.dart';
 import 'package:chatter/models/user.dart';
 import 'package:chatter/pages/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
   createUserInFirestore() async {
     //chk if users exist in users collection according to thier id
     final GoogleSignInAccount user = googleSignIn.currentUser;
-    print(user.id);
+
     DocumentSnapshot doc = await usersColRef.document(user.id).get();
     if (!doc.exists) {
       final username = await Navigator.push(
@@ -71,7 +72,7 @@ class _HomeState extends State<Home> {
         "username": username,
         "PhotoURL": user.photoUrl,
         "email": user.email,
-        "displayName": user.displayName.toLowerCase(),
+        "displayName": user.displayName.titleCase,
         "bio": "",
         "UCT": uct,
       });
@@ -79,7 +80,6 @@ class _HomeState extends State<Home> {
     }
     // if not then to create account page.
     currentUser = User.fromDocument(doc);
-    print(currentUser);
     print(currentUser.displayName);
     //get user name froma ccount make new user document users collecion
   }

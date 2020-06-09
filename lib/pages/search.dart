@@ -4,6 +4,7 @@ import 'package:chatter/widgets/progress.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Search extends StatefulWidget {
@@ -15,13 +16,13 @@ class _SearchState extends State<Search> {
   TextEditingController searchController = TextEditingController();
 
   Future<QuerySnapshot> searchResultFuture;
-
-  handleSearch(String query) {
+  handleSearch(String query) {    
     Future<QuerySnapshot> users = usersColRef
-        .where("displayName", isGreaterThanOrEqualTo: query)
-        .getDocuments();
+        .where("displayName", isGreaterThanOrEqualTo: toBeginningOfSentenceCase(query))
+        .getDocuments();        
     setState(() {
       searchResultFuture = users;
+      
     });
   }
 
@@ -81,7 +82,6 @@ class _SearchState extends State<Search> {
     return FutureBuilder(
       future: searchResultFuture,
       builder: (context, snapshot) {
-        print(snapshot.toString());
         if (snapshot.hasData) {
           List<UserResult> searchResults = [];
           snapshot.data.documents.forEach((doc) {

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatter/models/user.dart';
+import 'package:chatter/pages/edit_profile.dart';
 import 'package:chatter/pages/home.dart';
 import 'package:chatter/widgets/progress.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final String currentUserId = currentUser?.id;
+
   buildCountColumn(String label, int count) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -40,8 +43,54 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  editProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfile(currentUserId: currentUserId),
+      ),
+    );
+  }
+
+  Container buildButton({String text, Function func}) {
+    return Container(
+      padding: EdgeInsets.only(top: 2),
+      child: FlatButton(
+        onPressed: func,
+        child: Container(
+          width: 200,
+          height: 27,
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            border: Border.all(
+              color: Colors.black,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ),
+      ),
+    );
+  }
+
   buildProfileButton() {
-    return Text('Button');
+    bool isProfileOwner = currentUserId == widget.profileId;
+
+    if (isProfileOwner) {
+      return buildButton(
+        text: 'Edit Profile',
+        func: editProfile,
+      );
+    }
+
+    return Text('Edit Profile');
   }
 
   buildProfileHeader() {
@@ -87,18 +136,24 @@ class _ProfileState extends State<Profile> {
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top:12),
-                  child: Text(user.username, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),                  
-                ),),
+                  padding: EdgeInsets.only(top: 12),
+                  child: Text(
+                    user.username,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top:4),
-                  child: Text(user.displayName, style: TextStyle(fontWeight: FontWeight.bold),                  
-                ),),
+                  padding: EdgeInsets.only(top: 4),
+                  child: Text(
+                    user.displayName,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top:2),
-                  child: Text(user.bio),  
+                  padding: EdgeInsets.only(top: 2),
+                  child: Text(user.bio),
                 ),
               ],
             ),
@@ -124,10 +179,13 @@ class _ProfileState extends State<Profile> {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget>[
-          buildProfileHeader(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: ListView(
+          children: <Widget>[
+            buildProfileHeader(),
+          ],
+        ),
       ),
     );
   }

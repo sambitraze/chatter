@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cloud_firestore:
+  recase: ^3.0.0
   image_picker:
   firebase_storage:
   firebase_auth:
