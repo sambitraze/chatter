@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatter/models/user.dart';
 import 'package:chatter/pages/home.dart';
 import 'package:chatter/widgets/progress.dart';
@@ -18,6 +19,8 @@ class _EditProfileState extends State<EditProfile> {
   User user;
   TextEditingController displayNameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
+  bool _bioValid = true;
+  bool _dusplayNameValid = true;
   @override
   void initState() {
     super.initState();
@@ -36,6 +39,46 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  Column buildDisplayNameField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 12),
+          child: Text(
+            "Display Name",
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+        TextField(
+            controller: displayNameController,
+            decoration: InputDecoration(
+              hintText: "Update Display Name",
+            ))
+      ],
+    );
+  }
+
+  buildBioField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 12),
+          child: Text(
+            "Bio",
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+        TextField(
+            controller: bioController,
+            decoration: InputDecoration(
+              hintText: "Update Bio",
+            ))
+      ],
+    );
   }
 
   @override
@@ -62,7 +105,59 @@ class _EditProfileState extends State<EditProfile> {
           )
         ],
       ),
-      body: isLoading ? circularProgress() : Container(),
+      body: isLoading
+          ? circularProgress()
+          : ListView(
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage:
+                              CachedNetworkImageProvider(user.photoUrl),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          children: <Widget>[
+                            buildDisplayNameField(),
+                            buildBioField(),
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        color: Colors.black,
+                        onPressed: () => print('updated'),
+                        child: Text(
+                          "Update Profile",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: FlatButton.icon(
+                          onPressed: () =>print('Logged out'),
+                          icon: Icon(Icons.exit_to_app,),
+                          label: Text('Log Out', style: TextStyle(fontSize: 20),),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
     );
   }
 }
